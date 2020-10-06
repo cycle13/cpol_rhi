@@ -355,17 +355,17 @@ def create_level1a(input_file: str) -> None:
 
     radar.radar_calibration = {
         "r_calib_dbz_correction": {
-            'data': refl_calib_offset,
-            'long_name': 'calibrated_radar_zdr_correction',
-            'units': 'dB',
-            'meta_group': 'radar_calibration',
-            },
+            "data": refl_calib_offset,
+            "long_name": "calibrated_radar_zdr_correction",
+            "units": "dB",
+            "meta_group": "radar_calibration",
+        },
         "r_calib_zdr_correction": {
-            'data': zdr_calib_offset,
-            'long_name': 'calibrated_radar_zdr_correction',
-            'units': 'dB',
-            'meta_group': 'radar_calibration',
-            }
+            "data": zdr_calib_offset,
+            "long_name": "calibrated_radar_zdr_correction",
+            "units": "dB",
+            "meta_group": "radar_calibration",
+        },
     }
 
     pyart.io.write_cfradial(outfilename, radar, format="NETCDF4", arm_time_variables=True, time_reference=True)
