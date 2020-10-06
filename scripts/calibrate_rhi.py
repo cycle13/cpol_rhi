@@ -12,7 +12,6 @@ Raw radar RHIs processing.
     chunks
     main
 """
-
 import gc
 import os
 import sys
@@ -349,7 +348,6 @@ def create_level1a(input_file: str) -> None:
     return None
 
 
-
 def buffer(infile: str) -> None:
     """
     Buffer function to catch and kill errors about missing Sun hit.
@@ -382,11 +380,11 @@ def main(date_range) -> None:
             continue
         namelist = extract_zip(zipfile, path=ZIPDIR)
         print(crayons.yellow(f"{len(namelist)} files to process for {date}."))
-        
+
         # Process
         bag = db.from_sequence(namelist).map(buffer)
         bag.compute()
-        
+
         # Clean up
         remove(namelist)
         gc.collect()
@@ -401,26 +399,14 @@ if __name__ == "__main__":
     OUTDIR = "/scratch/kl02/vhl548/cpol/cpol_level_1a/"
     ZIPDIR = "/scratch/kl02/vhl548/unzipdir/"
 
-    parser_description =  """Raw radar PPIs processing. It provides Quality
+    parser_description = """Raw radar PPIs processing. It provides Quality
 control, filtering, attenuation correction, dealiasing, unfolding, hydrometeors
 calculation, and rainfall rate estimation."""
     parser = argparse.ArgumentParser(description=parser_description)
     parser.add_argument(
-        '-s',
-        '--start-date',
-        dest='start_date',
-        default=None,
-        type=str,
-        help='Starting date.',
-        required=True)
-    parser.add_argument(
-        '-e',
-        '--end-date',
-        dest='end_date',
-        default=None,
-        type=str,
-        help='Ending date.',
-        required=True)
+        "-s", "--start-date", dest="start_date", default=None, type=str, help="Starting date.", required=True
+    )
+    parser.add_argument("-e", "--end-date", dest="end_date", default=None, type=str, help="Ending date.", required=True)
 
     args = parser.parse_args()
     START_DATE = args.start_date
@@ -430,12 +416,11 @@ calculation, and rainfall rate estimation."""
         start = datetime.datetime.strptime(START_DATE, "%Y%m%d")
         end = datetime.datetime.strptime(END_DATE, "%Y%m%d")
         if start > end:
-            parser.error('Start date older than end date.')
-        date_range = [start + datetime.timedelta(days=x) for x in range(0, (end - start).days + 1, )]
+            parser.error("Start date older than end date.")
+        date_range = [start + datetime.timedelta(days=x) for x in range(0, (end - start).days + 1,)]
     except ValueError:
-        parser.error('Invalid dates.')
+        parser.error("Invalid dates.")
         sys.exit()
-
 
     with gzip.GzipFile(CALIBRATION_FILE, "r") as gzid:
         tmp_data = pickle.load(gzid)
