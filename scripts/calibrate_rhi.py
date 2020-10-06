@@ -362,11 +362,13 @@ def buffer(infile: str) -> None:
     rslt: pd.DataFrame
         Pandas dataframe with the results from the solar calibration code.
     """
-    try:
-        create_level1a(infile)
-    except Exception:
-        print(f"Problem with file {infile}.")
-        traceback.print_exc()
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        try:
+            create_level1a(infile)
+        except Exception:
+            print(f"Problem with file {infile}.")
+            traceback.print_exc()
 
     return None
 
