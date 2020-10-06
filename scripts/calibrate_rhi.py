@@ -9,7 +9,17 @@ Raw radar RHIs processing.
 
 .. autosummary::
     :toctree: generated/
-    chunks
+
+    mkdir
+    remove
+    extract_zip
+    get_radar_archive_file
+    get_metadata
+    get_calib_offset
+    get_zdr_offset
+    get_dbz_name
+    create_level1a
+    buffer
     main
 """
 import gc
