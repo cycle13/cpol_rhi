@@ -4,7 +4,7 @@ Raw radar RHIs processing.
 @title: calibrate_rhi
 @author: Valentin Louf <valentin.louf@bom.gov.au>
 @institution: Australian Bureau of Meteorology
-@date: 06/10/2020
+@date: 07/10/2020
 @version: 0.1
 
 .. autosummary::
@@ -352,6 +352,21 @@ def create_level1a(input_file: str) -> None:
     cpol_processing.cfmetadata.correct_units(radar)
 
     radar.metadata = get_metadata(radar)
+
+    radar.radar_calibration = {
+        "r_calib_dbz_correction": {
+            "data": refl_calib_offset,
+            "long_name": "calibrated_radar_zdr_correction",
+            "units": "dB",
+            "meta_group": "radar_calibration",
+        },
+        "r_calib_zdr_correction": {
+            "data": zdr_calib_offset,
+            "long_name": "calibrated_radar_zdr_correction",
+            "units": "dB",
+            "meta_group": "radar_calibration",
+        },
+    }
 
     pyart.io.write_cfradial(outfilename, radar, format="NETCDF4", arm_time_variables=True, time_reference=True)
     print(f"{outfilename} written.")
